@@ -3,6 +3,7 @@ package com.codezync.codezync_boilerplate;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.codezync.boilerplate.CommonFragments.MapFragment;
 import com.codezync.boilerplate.Listeners.MapViewListener;
@@ -20,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         MapFragment.initMap(false, getSupportFragmentManager().beginTransaction(), R.id.map, new MapViewListener<MapFragment, LatLng>() {
             @Override
             public void onMapInitialized(MapFragment fragment, GoogleMap googleMap) {
-               fragment.addMarker(MapUtility.locationToLatLng(googleMap.getMyLocation()),R.drawable.img_ripple_image,false);
+                Log.d("CN","init");
+               fragment.addMarker(new LatLng(8.060034473895321, 80.50900001297619),R.drawable.img_ripple_image,false);
             }
 
             @Override
