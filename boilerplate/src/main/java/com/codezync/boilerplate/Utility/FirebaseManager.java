@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.codezync.boilerplate.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class FirebaseManager {
@@ -60,20 +59,7 @@ public class FirebaseManager {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    /*
-    Method to set firebase crashlytics data
-     */
-    public void setCrashlytics(String phoneNumber, String email, String userName) {
 
-        //Set identfier as the users phone number
-        FirebaseCrashlytics.getInstance().setUserId(phoneNumber);
-
-        // Set a key to a string.
-        FirebaseCrashlytics.getInstance().setCustomKey(BoilerPlateConstants.FM_KEY_PHONE_NUMBER, phoneNumber);
-        FirebaseCrashlytics.getInstance().setCustomKey(BoilerPlateConstants.FM_KEY_EMAIL, email);
-        FirebaseCrashlytics.getInstance().setCustomKey(BoilerPlateConstants.FM_KEY_USER_NAME, userName);
-
-    }
 
     /*
     Method to subscribe firebase topic
@@ -99,10 +85,4 @@ public class FirebaseManager {
         });
     }
 
-    /*
-    Method to create logs in firebase
-     */
-    public static void setFirebaseLog(String message) {
-        FirebaseCrashlytics.getInstance().log(message);
-    }
 }

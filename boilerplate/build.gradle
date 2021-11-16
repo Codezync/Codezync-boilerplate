@@ -1,6 +1,6 @@
 plugins {
     id 'com.android.library'
-//    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -64,9 +64,6 @@ dependencies {
 
     //custom tooltip
     implementation 'com.fenchtose:tooltip:0.1.6'
-
-    // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:17.1.0'
 
     //Google Libraries
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
