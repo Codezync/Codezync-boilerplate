@@ -4,12 +4,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
-        maven {
-            url "https://jitpack.io"
-        }
-
+        maven { url "https://jitpack.io" }
     }
 }
-rootProject.name = "Boilerplate"
+rootProject.name = "Codezync_boilerplate"
 include ':app'
-include ':codezync_boilerplate'
+include ':boilerplate'
