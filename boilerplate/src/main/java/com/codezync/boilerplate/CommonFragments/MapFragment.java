@@ -45,7 +45,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -769,6 +768,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
             String url = mapUtility.getDirectionsUrl(startLocation, endLocation, wayPoints, "driving");
             new FetchURL(this).execute(url, "walking");
+
+            return start;
+        }
+
+        return null;
+
+    }
+
+    public Marker drawStartAndEndMarkersOnly(LatLng startLocation, float startIconBearing, String startPinName,
+                                             int startLocationIcon, LatLng endLocation,
+                                             String endPinName, String endImageUrl, IconSize iconSize, int placeholder, int borderColor) {
+
+        if (checkMapIsReady()) {
+            mMap.clear();
+            this.startLocation = startLocation;
+            this.endLocation = endLocation;
+
+            Marker start = mMap.addMarker(mapUtility.createMarkerWithBearing(startLocation, startPinName, startLocationIcon, startIconBearing));
+
+            if (StringUtility.isNotNull(endImageUrl)) {
+                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize, borderColor));
+            } else {
+                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize, borderColor));
+            }
 
             return start;
         }
