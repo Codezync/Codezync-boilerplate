@@ -264,7 +264,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-    public void startAnimation(LatLng latLng, int icon, Context context,int color,String markerText) {
+    public void startAnimation(LatLng latLng, int icon, Context context, int color, String markerText) {
 
         mMap.clear();
 
@@ -399,7 +399,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-    public void addUrlMarker(LatLng location, String pinName, String imageUrl, boolean clearMarkers,int placeholderIcon,int borderColor) {
+    public void addUrlMarker(LatLng location, String pinName, String imageUrl, boolean clearMarkers, int placeholderIcon, int borderColor) {
 
         if (checkMapIsReady()) {
 
@@ -416,9 +416,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
                 if (StringUtility.isNotNull(imageUrl)) {
-                    mMap.addMarker(mapUtility.createWebUrlMarker(location, pinName, imageUrl, new IconSize(80, 80),borderColor));
+                    mMap.addMarker(mapUtility.createWebUrlMarker(location, pinName, imageUrl, new IconSize(80, 80), borderColor));
                 } else {
-                    mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, placeholderIcon, new IconSize(80, 80),borderColor));
+                    mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, placeholderIcon, new IconSize(80, 80), borderColor));
                 }
 
 //                MarkerOptions markerOptions2 = new MarkerOptions()
@@ -434,7 +434,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             } catch (Exception e) {
 //                e.printStackTrace();
                 //image fetching issue
-                mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, placeholderIcon, new IconSize(80, 80),borderColor));
+                mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, placeholderIcon, new IconSize(80, 80), borderColor));
                 mCamera = CameraUpdateFactory.newLatLngZoom(location, defaultZoomLevel);
                 mMap.moveCamera(mCamera);
             }
@@ -442,14 +442,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-    public void addCircularMarker(LatLng location, String pinName, int icon, boolean clearMarkers, IconSize iconSize,int borderColor) {
+    public void addCircularMarker(LatLng location, String pinName, int icon, boolean clearMarkers, IconSize iconSize, int borderColor) {
         if (checkMapIsReady()) {
 
             if (clearMarkers) {
                 mMap.clear();
             }
             //update driver marker
-            mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, icon, iconSize,borderColor));
+            mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, icon, iconSize, borderColor));
 
 //                MarkerOptions markerOptions2 = new MarkerOptions()
 //                        .position(location)
@@ -465,14 +465,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    public void addCircularMarker(LatLng location, String pinName, int icon, boolean clearMarkers,int borderColor) {
+    public void addCircularMarker(LatLng location, String pinName, int icon, boolean clearMarkers, int borderColor) {
         if (checkMapIsReady()) {
 
             if (clearMarkers) {
                 mMap.clear();
             }
             //update driver marker
-            mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, icon, new IconSize(80, 80),borderColor));
+            mMap.addMarker(mapUtility.createLocalCircularMarker(location, pinName, icon, new IconSize(80, 80), borderColor));
 
 //                MarkerOptions markerOptions2 = new MarkerOptions()
 //                        .position(location)
@@ -488,7 +488,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
     }
 
-    public void addUrlMarker(LatLng location, String pinName, String imageUrl, boolean clearMarkers, IconSize iconSize,int borderColor) {
+    public void addUrlMarker(LatLng location, String pinName, String imageUrl, boolean clearMarkers, IconSize iconSize, int borderColor) {
 
         if (checkMapIsReady()) {
 
@@ -501,7 +501,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             try {
                 //load image
 
-                mMap.addMarker(mapUtility.createWebUrlMarker(location, pinName, imageUrl, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createWebUrlMarker(location, pinName, imageUrl, iconSize, borderColor));
 
 //                MarkerOptions markerOptions2 = new MarkerOptions()
 //                        .position(location)
@@ -741,7 +741,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     public Marker drawPathForTrackingEndCircular(LatLng startLocation, float startIconBearing, String startPinName,
                                                  List<LatLng> wayPoints, int startLocationIcon, LatLng endLocation,
-                                                 String endPinName, String endImageUrl, IconSize iconSize,int placeholder,int borderColor) {
+                                                 String endPinName, String endImageUrl, IconSize iconSize, int placeholder, int borderColor) {
 
         if (checkMapIsReady()) {
             mMap.clear();
@@ -752,9 +752,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             //   mMap.addMarker(mapUtility.createMarker(endLocation, endPinName, endLocationIcon));
 
             if (StringUtility.isNotNull(endImageUrl)) {
-                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize, borderColor));
             } else {
-                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize, borderColor));
             }
 
             //waypoints add
@@ -820,29 +820,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
+    public void setStartAndEndLocationOnMap(LatLng startLocation,
+                                            LatLng endLocation) {
+
+        if (checkMapIsReady()) {
+
+            this.startLocation = startLocation;
+            this.endLocation = endLocation;
+
+            LogUtil.debug(TAG, "drawPathForTracking :" + new Gson().toJson(startLocation));
+
+        }
+
+
+    }
+
 
     public Marker drawPathForTrackingBothCircular(LatLng startLocation, float startIconBearing, String startPinName,
                                                   List<LatLng> wayPoints, String startImageUrl, LatLng endLocation,
-                                                  String endPinName, String endImageUrl, IconSize iconSize,int placeholder,int borderColor) {
+                                                  String endPinName, String endImageUrl, IconSize iconSize, int placeholder, int borderColor) {
 
         if (checkMapIsReady()) {
             mMap.clear();
             this.startLocation = startLocation;
             this.endLocation = endLocation;
 
-            Marker start = mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, startIconBearing,borderColor));
+            Marker start = mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, startIconBearing, borderColor));
             //   mMap.addMarker(mapUtility.createMarker(endLocation, endPinName, endLocationIcon));
 
             if (StringUtility.isNotNull(startImageUrl)) {
-                mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, iconSize, borderColor));
             } else {
-                mMap.addMarker(mapUtility.createLocalCircularMarker(startLocation, startPinName,placeholder, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createLocalCircularMarker(startLocation, startPinName, placeholder, iconSize, borderColor));
             }
 
             if (StringUtility.isNotNull(endImageUrl)) {
-                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize, borderColor));
             } else {
-                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize, borderColor));
             }
 
             //waypoints add
@@ -866,7 +881,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     public Marker drawPathForTrackingStartCircular(LatLng startLocation, float startIconBearing, String startPinName,
                                                    List<LatLng> wayPoints, String startImageUrl, LatLng endLocation,
-                                                   String endPinName, int endIcon, IconSize iconSize,int placeholder,int borderColor) {
+                                                   String endPinName, int endIcon, IconSize iconSize, int placeholder, int borderColor) {
 
         if (checkMapIsReady()) {
             mMap.clear();
@@ -874,9 +889,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             this.endLocation = endLocation;
 
             if (StringUtility.isNotNull(startImageUrl)) {
-                mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, iconSize, borderColor));
             } else {
-                mMap.addMarker(mapUtility.createLocalCircularMarker(startLocation, startPinName,placeholder, iconSize,borderColor));
+                mMap.addMarker(mapUtility.createLocalCircularMarker(startLocation, startPinName, placeholder, iconSize, borderColor));
             }
 
             Marker start = mMap.addMarker(mapUtility.createMarker(endLocation, endPinName, endIcon));
@@ -904,15 +919,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     public Marker drawPathReturnStartMarker(LatLng startLocation, float startIconBearing, String startPinName, List<LatLng> wayPoints, String startImageUrl,
-                                            LatLng endLocation, String endPinName, String endImageUrl, IconSize iconSize,int borderColor) {
+                                            LatLng endLocation, String endPinName, String endImageUrl, IconSize iconSize, int borderColor) {
 
         if (checkMapIsReady()) {
             mMap.clear();
             this.startLocation = startLocation;
             this.endLocation = endLocation;
 
-            Marker destination = mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, startIconBearing,borderColor));
-            mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize,borderColor));
+            Marker destination = mMap.addMarker(mapUtility.createWebUrlMarker(startLocation, startPinName, startImageUrl, startIconBearing, borderColor));
+            mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize, borderColor));
 
             String url = mapUtility.getDirectionsUrl(startLocation, endLocation, wayPoints, "driving");
             new FetchURL(this).execute(url, "walking");
@@ -926,7 +941,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     public void drawPath(LatLng startLocation, String startPinName, List<LatLng> wayPoints, int startLocationIcon, LatLng endLocation,
-                         String endPinName, int endLocationIcon,int wayPointIcon) {
+                         String endPinName, int endLocationIcon, int wayPointIcon) {
 
         if (checkMapIsReady()) {
             mMap.clear();
@@ -1242,7 +1257,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     public void drawPathWithWayPointMarker(LatLng startLocation, String startPinName, int startLocationIcon,
                                            LatLng endLocation, String endPinName, int endLocationIcon,
-                                           List<LatLng> wayPoints,int wayPointIcon) {
+                                           List<LatLng> wayPoints, int wayPointIcon) {
 
         if (checkMapIsReady()) {
             mMap.clear();
@@ -1255,7 +1270,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
             if (wayPoints != null && (wayPoints.size() > 0)) {
                 for (LatLng wayPoint : wayPoints) {
-                    mMap.addMarker(mapUtility.createMarker(wayPoint, endPinName,wayPointIcon));
+                    mMap.addMarker(mapUtility.createMarker(wayPoint, endPinName, wayPointIcon));
                 }
             }
 
@@ -1641,7 +1656,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         float v = animation.getAnimatedFraction();
                         LatLng newPosition = latLngInterpolator.interpolate(v, startPosition, endPosition);
                         marker.setPosition(newPosition);
-                        if (withCameraUpdate && (lastKnownCameraUpdate!=null)) {
+                        if (withCameraUpdate && (lastKnownCameraUpdate != null)) {
 //                            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
 //                                    .target(newPosition)
 //                                    .zoom(defaultZoomLevelForMarkerUpdate)
