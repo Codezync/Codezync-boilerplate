@@ -53,7 +53,6 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.gson.Gson;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,12 +70,12 @@ import java.util.Locale;
 public class MapUtility {
 
 
-    private static String TAG = "MapUtility";
+    private static final String TAG = "MapUtility";
 
     private static final int MAP_TO_IMAGE_WIDTH = 400;
     private static final int MAP_TO_IMAGE_HEIGHT = 200;
 
-    private Activity activity;
+    private final Activity activity;
 
     public MapUtility(Activity activity) {
         this.activity = activity;
@@ -185,7 +184,7 @@ public class MapUtility {
     }
 
 
-    public static MapStyleOptions getMapStyle(Context context,int mapRes) {
+    public static MapStyleOptions getMapStyle(Context context, int mapRes) {
         return MapStyleOptions.loadRawResourceStyle(context, mapRes);
     }
 
@@ -207,6 +206,52 @@ public class MapUtility {
                 .rotation(bearing)
                 // .anchor(0,0)
                 .icon(generateBitmapDescriptorFromResWithoutImageMargine(activity, icon));
+    }
+
+    public static void startRippleAnimation(GoogleMap googleMap, LatLng latLng, int rippleSize) {
+
+        int defaultRippleSize = rippleSize;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final GroundOverlay groundOverlay11 = googleMap.addGroundOverlay(new
+                        GroundOverlayOptions()
+                        .position(latLng, 10)
+                        .transparency(0.5f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+//                    .image(BitmapDescriptorFactory
+//                            .fromBitmap(MapUtility.resizeMapIcons("one", 60, 60,TaxiHomeActivity.this))));
+                OverLay(groundOverlay11, defaultRippleSize);
+            }
+        }, 0);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final GroundOverlay groundOverlay1 = googleMap.addGroundOverlay(new GroundOverlayOptions()
+                        .position(latLng, 10)
+                        .transparency(0.4f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+//                        .image(BitmapDescriptorFactory
+//                                .fromBitmap(MapUtility.resizeMapIcons("two", 60, 60,TaxiHomeActivity.this))));
+                OverLay(groundOverlay1, defaultRippleSize);
+            }
+        }, 4000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final GroundOverlay groundOverlay2 = googleMap.addGroundOverlay(new GroundOverlayOptions()
+                        .position(latLng, 10)
+                        .transparency(0.3f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+//                        .image(BitmapDescriptorFactory
+//                                .fromBitmap(MapUtility.resizeMapIcons("three", 60, 60,TaxiHomeActivity.this))));
+                OverLay(groundOverlay2, defaultRippleSize);
+            }
+        }, 8000);
     }
 
     public MarkerOptions createMarkerForCircle(LatLng latLng, String pinName, String icon) {
@@ -318,51 +363,14 @@ public class MapUtility {
         }
     }
 
+    public MarkerOptions createMarkerWithBearing(LatLng latLng, String pinName, int icon, float bearing, float anchorU, float anchorV) {
 
-    public static void startRippleAnimation(GoogleMap googleMap, LatLng latLng,int rippleSize) {
-
-        int defaultRippleSize = rippleSize;
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final GroundOverlay groundOverlay11 = googleMap.addGroundOverlay(new
-                        GroundOverlayOptions()
-                        .position(latLng, 10)
-                        .transparency(0.5f)
-                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
-//                    .image(BitmapDescriptorFactory
-//                            .fromBitmap(MapUtility.resizeMapIcons("one", 60, 60,TaxiHomeActivity.this))));
-                OverLay(groundOverlay11, defaultRippleSize);
-            }
-        }, 0);
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final GroundOverlay groundOverlay1 = googleMap.addGroundOverlay(new GroundOverlayOptions()
-                        .position(latLng, 10)
-                        .transparency(0.4f)
-                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
-//                        .image(BitmapDescriptorFactory
-//                                .fromBitmap(MapUtility.resizeMapIcons("two", 60, 60,TaxiHomeActivity.this))));
-                OverLay(groundOverlay1, defaultRippleSize);
-            }
-        }, 4000);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final GroundOverlay groundOverlay2 = googleMap.addGroundOverlay(new GroundOverlayOptions()
-                        .position(latLng, 10)
-                        .transparency(0.3f)
-                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
-//                        .image(BitmapDescriptorFactory
-//                                .fromBitmap(MapUtility.resizeMapIcons("three", 60, 60,TaxiHomeActivity.this))));
-                OverLay(groundOverlay2, defaultRippleSize);
-            }
-        }, 8000);
+        return new MarkerOptions()
+                .position(latLng)
+                .title(pinName)
+                .rotation(bearing)
+                .anchor(anchorU, anchorV)
+                .icon(generateBitmapDescriptorFromResWithoutImageMargine(activity, icon));
     }
 
 
@@ -747,8 +755,6 @@ public class MapUtility {
 //    }
 
 
-
-
 //    public static StaticMap getMapImageWithMarker(String apiKey, int width, int height, StaticMap.Marker marker) {
 //        StaticMap map = getMapUrl(width, height, apiKey);
 //        map.marker(marker);
@@ -819,7 +825,7 @@ public class MapUtility {
                             sb.append(line);
                         }
                         data = sb.toString();
-                        Log.d(TAG, "Downloaded URL: " + data.toString());
+                        Log.d(TAG, "Downloaded URL: " + data);
 
                         DistanceMatrixResponse distanceMatrixResponse = new Gson().fromJson(data, DistanceMatrixResponse.class);
                         totalTime = 0;
@@ -843,7 +849,7 @@ public class MapUtility {
 
                         br.close();
                     } catch (Exception e) {
-                        LogUtil.debug(TAG, "Exception downloading URL: " + e.toString());
+                        LogUtil.debug(TAG, "Exception downloading URL: " + e);
                         e.printStackTrace();
                     } finally {
                         iStream.close();
@@ -899,11 +905,11 @@ public class MapUtility {
                             sb.append(line);
                         }
                         data = sb.toString();
-                        Log.d(TAG, "Downloaded URL: " + data.toString());
+                        Log.d(TAG, "Downloaded URL: " + data);
                         directionResponse = data;
                         br.close();
                     } catch (Exception e) {
-                        LogUtil.debug(TAG, "Exception downloading URL: " + e.toString());
+                        LogUtil.debug(TAG, "Exception downloading URL: " + e);
                         e.printStackTrace();
                     } finally {
                         iStream.close();
@@ -1007,7 +1013,7 @@ public class MapUtility {
     }
 
 
-    public MarkerOptions createWebUrlMarker(LatLng location, String pinName,String imageUrl,float bearing ,int borderColor) {
+    public MarkerOptions createWebUrlMarker(LatLng location, String pinName, String imageUrl, float bearing, int borderColor) {
         try {
             //load image
             URL url = null;
@@ -1046,7 +1052,38 @@ public class MapUtility {
         }
     }
 
-    public MarkerOptions createWebUrlMarker(LatLng location, String pinName,String imageUrl ,int borderColor) {
+    public MarkerOptions createWebUrlMarker(LatLng location, String pinName, String imageUrl, IconSize iconSize, int borderColor, float anchorU, float anchorV) {
+        try {
+            //load image
+            URL url = null;
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            url = new URL(imageUrl);
+//                //to bitmap
+            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                //resize bitmap
+            Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, iconSize.getWidth(), iconSize.getHeight(), true);
+//                //add circuler shape
+            Bitmap circular = getCircullerBitmap(scaledBmp);
+//                //add border
+//               // Bitmap bitmapWithBorder  = mapUtility.addBorderToBitmap(circular,1,R.color.colorPrimary);
+//                Bitmap circular = mapUtility.getCircularBitmap(bmp,80);
+            Bitmap circular1 = addBorderToCircularBitmap(circular, 2, borderColor);
+//               Bitmap circular2 = mapUtility.addShadowToCircularBitmap(circular1,3,R.color.colorBlack);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location)
+                    .title(pinName)
+                    .anchor(anchorU, anchorV)
+                    .icon(BitmapDescriptorFactory.fromBitmap(circular1));
+            return markerOptions;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public MarkerOptions createWebUrlMarker(LatLng location, String pinName, String imageUrl, int borderColor) {
         try {
             //load image
             URL url = null;
@@ -1084,7 +1121,7 @@ public class MapUtility {
         }
     }
 
-    public MarkerOptions createWebUrlMarker(LatLng location, String pinName,String imageUrl,IconSize iconSize ,int borderColor) {
+    public MarkerOptions createWebUrlMarker(LatLng location, String pinName, String imageUrl, IconSize iconSize, int borderColor) {
         try {
             //load image
             URL url = null;
@@ -1123,10 +1160,10 @@ public class MapUtility {
     }
 
 
-    public MarkerOptions createLocalCircularMarker(LatLng location, String pinName,int icon,IconSize iconSize,int borderColor ) {
+    public MarkerOptions createLocalCircularMarker(LatLng location, String pinName, int icon, IconSize iconSize, int borderColor) {
         try {
 //                //to bitmap
-            Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(),icon);
+            Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), icon);
 //                //resize bitmap
             Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, iconSize.getWidth(), iconSize.getHeight(), true);
 //                //add circuler shape
@@ -1135,7 +1172,7 @@ public class MapUtility {
 //               // Bitmap bitmapWithBorder  = mapUtility.addBorderToBitmap(circular,1,R.color.colorPrimary);
 
 //                Bitmap circular = mapUtility.getCircularBitmap(bmp,80);
-            Bitmap circular1 = addBorderToCircularBitmap(circular, 2,borderColor);
+            Bitmap circular1 = addBorderToCircularBitmap(circular, 2, borderColor);
 //               Bitmap circular2 = mapUtility.addShadowToCircularBitmap(circular1,3,R.color.colorBlack);
 
 
@@ -1147,6 +1184,31 @@ public class MapUtility {
 
             return markerOptions;
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public MarkerOptions createLocalCircularMarker(LatLng location, String pinName, int icon, IconSize iconSize, int borderColor, float anchorU, float anchorV) {
+        try {
+//                //to bitmap
+            Bitmap bmp = BitmapFactory.decodeResource(activity.getResources(), icon);
+//                //resize bitmap
+            Bitmap scaledBmp = Bitmap.createScaledBitmap(bmp, iconSize.getWidth(), iconSize.getHeight(), true);
+//                //add circuler shape
+            Bitmap circular = getCircullerBitmap(scaledBmp);
+//                //add border
+//               // Bitmap bitmapWithBorder  = mapUtility.addBorderToBitmap(circular,1,R.color.colorPrimary);
+//                Bitmap circular = mapUtility.getCircularBitmap(bmp,80);
+            Bitmap circular1 = addBorderToCircularBitmap(circular, 2, borderColor);
+//               Bitmap circular2 = mapUtility.addShadowToCircularBitmap(circular1,3,R.color.colorBlack);
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location)
+                    .title(pinName)
+                    .anchor(anchorU, anchorV)
+                    .icon(BitmapDescriptorFactory.fromBitmap(circular1));
+            return markerOptions;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -1410,7 +1472,7 @@ public class MapUtility {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
                 Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder("");
+                StringBuilder strReturnedAddress = new StringBuilder();
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(",");
                     String street = returnedAddress.getAddressLine(0);
@@ -1431,7 +1493,7 @@ public class MapUtility {
                     }
                 }
                 strAdd = strReturnedAddress.toString();
-                LogUtil.debug("Current location", "" + strReturnedAddress.toString());
+                LogUtil.debug("Current location", "" + strReturnedAddress);
             } else {
                 LogUtil.debug("Current location", "No Address returned!");
             }
