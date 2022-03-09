@@ -674,7 +674,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
-    public Marker drawPathReturnStartMarker(LatLng startLocation, float bearing, String startPinName, int startLocationIcon, LatLng endLocation, String endPinName, int endLocationIcon, float startMarkerAnchorU, float startMarkerAnchorV, float endMarkerAnchorU, float endMarkerAnchorV) {
+    public Marker returnStartMarker(LatLng startLocation, float bearing, String startPinName, int startLocationIcon, LatLng endLocation, String endPinName, int endLocationIcon, float startMarkerAnchorU, float startMarkerAnchorV, float endMarkerAnchorU, float endMarkerAnchorV) {
 
         if (checkMapIsReady()) {
             mMap.clear();
@@ -1587,6 +1587,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMap.animateCamera(cu, 1000, null);
 
 
+    }
+
+    public Marker drawPathReturnStartMarker(LatLng startLocation, float bearing, String startPinName, int startLocationIcon, LatLng endLocation, String endPinName, int endLocationIcon, float startMarkerAnchorU, float startMarkerAnchorV, float endMarkerAnchorU, float endMarkerAnchorV) {
+
+        if (checkMapIsReady()) {
+            mMap.clear();
+            this.startLocation = startLocation;
+            this.endLocation = endLocation;
+            Marker destination = mMap.addMarker(mapUtility.createMarkerWithBearing(startLocation, startPinName, startLocationIcon, bearing, startMarkerAnchorU, startMarkerAnchorV));
+            mMap.addMarker(mapUtility.createMarker(endLocation, endPinName, endLocationIcon, endMarkerAnchorU, endMarkerAnchorV));
+            return destination;
+        }
+        return null;
     }
 
     public int getBound(LatLng start, LatLng end) {
