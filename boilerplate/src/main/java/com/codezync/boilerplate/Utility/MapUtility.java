@@ -74,6 +74,7 @@ public class MapUtility {
 
     private static final int MAP_TO_IMAGE_WIDTH = 400;
     private static final int MAP_TO_IMAGE_HEIGHT = 200;
+    private GroundOverlay groundOverlay1;
 
     private final Activity activity;
 
@@ -1568,4 +1569,61 @@ public class MapUtility {
 
         return kmI + " " + activity.getString(R.string.km);
     }
+
+    public void triggerRippleAnimation(GoogleMap googleMap, LatLng latLng, int rippleSize) {
+        if (groundOverlay1 != null) {
+            groundOverlay1.remove();
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                groundOverlay1 = googleMap.addGroundOverlay(new
+                        GroundOverlayOptions()
+                        .position(latLng, 2)
+                        .transparency(0.5f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+                setOverLay(groundOverlay1, rippleSize);
+            }
+        }, 0);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                groundOverlay1 = googleMap.addGroundOverlay(new GroundOverlayOptions()
+                        .position(latLng, 2)
+                        .transparency(0.4f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+                setOverLay(groundOverlay1, rippleSize);
+            }
+        }, 4000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                groundOverlay1 = googleMap.addGroundOverlay(new GroundOverlayOptions()
+                        .position(latLng, 2)
+                        .transparency(0.3f)
+                        .image(BitmapDescriptorFactory.fromResource(R.drawable.img_ripple_image)));
+                setOverLay(groundOverlay1, rippleSize);
+            }
+        }, 8000);
+
+    }
+
+    private void setOverLay(final GroundOverlay groundOverlay, int rippleSize) {
+        ValueAnimator vAnimator = ValueAnimator.ofInt(0, rippleSize);
+        int r = 99999;
+        vAnimator.setRepeatCount(r);
+        vAnimator.setIntValues(0, 500);
+        vAnimator.setDuration(12000);
+        vAnimator.setEvaluator(new IntEvaluator());
+        vAnimator.setInterpolator(new LinearInterpolator());
+        vAnimator.addUpdateListener(valueAnimator -> {
+            float animatedFraction = valueAnimator.getAnimatedFraction();
+            Integer i = (Integer) valueAnimator.getAnimatedValue();
+            groundOverlay.setDimensions(i);
+            groundOverlay.setTransparency(animatedFraction);
+        });
+        vAnimator.start();
+    }
+
 }
