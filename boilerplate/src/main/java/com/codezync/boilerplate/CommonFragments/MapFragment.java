@@ -674,6 +674,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
+    public Marker drawPathReturnStartMarker(LatLng startLocation, float bearing, String startPinName, int startLocationIcon, LatLng endLocation, String endPinName, int endLocationIcon, float startMarkerAnchorU, float startMarkerAnchorV, float endMarkerAnchorU, float endMarkerAnchorV) {
+
+        if (checkMapIsReady()) {
+            mMap.clear();
+            this.startLocation = startLocation;
+            this.endLocation = endLocation;
+            Marker destination = mMap.addMarker(mapUtility.createMarkerWithBearing(startLocation, startPinName, startLocationIcon, bearing, startMarkerAnchorU, startMarkerAnchorV));
+            mMap.addMarker(mapUtility.createMarker(endLocation, endPinName, endLocationIcon, endMarkerAnchorU, endMarkerAnchorV));
+            return destination;
+        }
+        return null;
+    }
+
     public Marker drawPathReturnStartMarker(LatLng startLocation, float startIconBearing, String startPinName, List<LatLng> wayPoints, int wayPointIcon, int startLocationIcon, LatLng endLocation, String endPinName, int endLocationIcon) {
 
         if (checkMapIsReady()) {
@@ -1576,7 +1589,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
-    private int getBound(LatLng start, LatLng end) {
+    public int getBound(LatLng start, LatLng end) {
         double distance = MapUtility.getDistance(start, end) / 1000;
 
 
