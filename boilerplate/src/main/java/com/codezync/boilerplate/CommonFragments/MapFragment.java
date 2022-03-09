@@ -800,6 +800,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     }
 
+    public Marker drawStartAndEndMarkersOnly(LatLng startLocation, float startIconBearing, String startPinName,
+                                             int startLocationIcon, LatLng endLocation,
+                                             String endPinName,
+                                             String endImageUrl,
+                                             IconSize iconSize,
+                                             int placeholder,
+                                             int borderColor,
+                                             float startMarkerAnchorU,
+                                             float startMarkerAnchorV,
+                                             float endMarkerAnchorU,
+                                             float endMarkerAnchorV) {
+
+
+        if (checkMapIsReady()) {
+            mMap.clear();
+            this.startLocation = startLocation;
+            this.endLocation = endLocation;
+            Marker start = mMap.addMarker(mapUtility.createMarkerWithBearing(startLocation, startPinName, startLocationIcon, startIconBearing, startMarkerAnchorU, startMarkerAnchorV));
+            if (StringUtility.isNotNull(endImageUrl)) {
+                mMap.addMarker(mapUtility.createWebUrlMarker(endLocation, endPinName, endImageUrl, iconSize, borderColor, endMarkerAnchorU, endMarkerAnchorV));
+            } else {
+                mMap.addMarker(mapUtility.createLocalCircularMarker(endLocation, endPinName, placeholder, iconSize, borderColor, endMarkerAnchorU, endMarkerAnchorV));
+            }
+
+            return start;
+        }
+
+        return null;
+
+    }
+
 
     public void drawPathForTracking(LatLng startLocation,
                                     LatLng endLocation) {
