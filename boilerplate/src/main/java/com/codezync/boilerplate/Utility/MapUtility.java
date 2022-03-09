@@ -264,6 +264,15 @@ public class MapUtility {
                         .fromBitmap(resizeMapIcons(icon, 40, 40)));
     }
 
+    public MarkerOptions createMarker(LatLng latLng, String pinName, int icon, float anchorU,
+                                      float anchorV) {
+
+        return new MarkerOptions()
+                .position(latLng)
+                .title(pinName)
+                .anchor(anchorU, anchorV)
+                .icon(generateBitmapDescriptorFromResWithoutImageMargine(activity, icon));
+    }
 
     public MarkerOptions createMarkerForCircle(LatLng latLng, String pinName, String icon, int size) {
 
