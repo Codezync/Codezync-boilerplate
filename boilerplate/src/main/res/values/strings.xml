@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">codezync_boilerplate</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBpREZeFse_UlD2GrIZlGvVgRHsH_6hO0w</string>
     <string name="map_loading_message">Please wait, Map is loading !</string>
     <string name="good_morning">Good Morning !</string>
     <string name="good_afternoon">Good Afternoon !</string>
