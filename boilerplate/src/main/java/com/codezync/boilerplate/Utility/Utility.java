@@ -6,26 +6,23 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.net.wifi.hotspot2.pps.Credential;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Patterns;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.BuildConfig;
 import com.codezync.boilerplate.R;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -34,6 +31,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
 
 import es.dmoral.toasty.Toasty;
 
@@ -583,6 +582,21 @@ public class Utility extends LogUtil {
 
     public enum ToastTypes {INFO, WARNING, ERROR, SUCCESS}
 
-   
+    @Nullable
+    public static String getGoogleMapKey(Application application) {
+
+        try {
+            ApplicationInfo applicationInfo = application.getPackageManager().getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);
+            Object googleMapApiKey = applicationInfo.metaData.get("com.google.android.geo.API_KEY");
+            if (googleMapApiKey != null)
+                return googleMapApiKey.toString();
+            else
+                return null;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
