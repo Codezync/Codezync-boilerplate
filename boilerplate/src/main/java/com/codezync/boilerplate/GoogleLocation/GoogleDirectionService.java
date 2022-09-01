@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 
-import com.codezync.boilerplate.R;
 import com.codezync.boilerplate.Utility.LogUtil;
+import com.codezync.boilerplate.Utility.Utility;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -73,7 +73,8 @@ public class GoogleDirectionService {
         // Sensor enabled
         String sensor = "sensor=true";
         String mode = "mode=driving";
-        String key = "key=" + mContext.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(mContext);
+        String key = "key=" + googleMapKey;
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode + "&" + key;
 
