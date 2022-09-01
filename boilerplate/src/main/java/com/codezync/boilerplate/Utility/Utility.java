@@ -6,7 +6,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -583,7 +582,7 @@ public class Utility extends LogUtil {
     public enum ToastTypes {INFO, WARNING, ERROR, SUCCESS}
 
     @Nullable
-    public static String getGoogleMapKey(Application application) {
+    public static String getGoogleMapKey(Context application) {
 
         try {
             ApplicationInfo applicationInfo = application.getPackageManager().getApplicationInfo(application.getPackageName(), PackageManager.GET_META_DATA);

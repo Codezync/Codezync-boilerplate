@@ -543,7 +543,8 @@ public class MapUtility {
         // Sensor enabled
         String sensor = "sensor=false";
         String mode = "mode=driving";
-        String key = "key=" + activity.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(activity);
+        String key = "key=" + googleMapKey;
         // Building the parameters to the web service
         String parameters = "";
         if (ExtenstionMethods.isNotEmptyString(wayPoint)) {
@@ -599,7 +600,8 @@ public class MapUtility {
         // Sensor enabled
         String sensor = "sensor=false";
         String mode = "mode=driving";
-        String key = "key=" + activity.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(activity);
+        String key = "key=" + googleMapKey;
         // Building the parameters to the web service
         String parameters = "";
         if (ExtenstionMethods.isNotEmptyString(wayPoint)) {
@@ -646,7 +648,8 @@ public class MapUtility {
         // Sensor enabled
         String sensor = "sensor=false";
         String mode = "mode=driving";
-        String key = "key=" + activity.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(activity);
+        String key = "key=" + googleMapKey;
         // Building the parameters to the web service
         String parameters = "";
         if (ExtenstionMethods.isNotEmptyString(wayPoint)) {
@@ -709,7 +712,8 @@ public class MapUtility {
         // Output format
         String output = "json";
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + dest + "&waypoints=" + wayPoint + "&key=" + activity.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(activity);
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origin + "&destination=" + dest + "&waypoints=" + wayPoint + "&key=" + googleMapKey;
 
 
         LogUtil.debug(TAG, "url = " + origin);
@@ -964,7 +968,8 @@ public class MapUtility {
         // Sensor enabled
 //        String sensor = "sensor=false";
 //        String mode = "mode=driving";
-        String key = "key=" + activity.getResources().getString(R.string.google_maps_key);
+        String googleMapKey = Utility.getGoogleMapKey(activity);
+        String key = "key=" + googleMapKey;
         // Building the parameters to the web service
         String parameters = "";
         if (ExtenstionMethods.isNotEmptyString(wayPoint)) {
