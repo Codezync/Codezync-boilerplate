@@ -14,7 +14,8 @@ this is able to import as a gradle dependency and start using the features.
 
 This is library is distributed through **Jitpack**  .
 
-[ **Jitpack**  Distribution Page Link for the ](https://jitpack.io/#Codezync/Codezync-boilerplate)
+[ **
+Jitpack**  Distribution Page Link for the Project ](https://jitpack.io/#Codezync/Codezync-boilerplate)
 
 #### Project Structure
 
@@ -30,7 +31,6 @@ this library , then include the 'boilerplate' module as a additional module to t
 and then do the modification on the module it self.
 
 #### App
-
 This Module includes a sample Usage of the features included in the module 'boilerplate'.
 
 #### Boilerplate
@@ -48,9 +48,9 @@ All Above mentioned features are implemented under this module.
 
 ##### Branch Descriptions in the Project
 
-- master -> This branch contains the code for the latest public release..after releasing to
+- main :- This branch contains the code for the latest public release..after releasing to
   production , this branch should be updated.When you want to make a new release on Jitpack, tag and
-  commit the changes to the master branch.
+  commit the changes to the main branch.
 
 
 
